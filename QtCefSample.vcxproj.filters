@@ -1,0 +1,64 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Form Files">
+      <UniqueIdentifier>{99349809-55BA-4b9d-BF79-8FDBB0286EB3}</UniqueIdentifier>
+      <Extensions>ui</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{D9D6E242-F8AF-46E4-B9FD-80ECBC20BA3E}</UniqueIdentifier>
+      <Extensions>qrc;*</Extensions>
+      <ParseFiles>false</ParseFiles>
+    </Filter>
+    <Filter Include="FileTree">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="main.cpp">
+      <Filter>FileTree</Filter>
+    </ClCompile>
+    <ClCompile Include="QtCefSample.cpp">
+      <Filter>FileTree</Filter>
+    </ClCompile>
+    <ClCompile Include="QtCefView.cpp">
+      <Filter>FileTree</Filter>
+    </ClCompile>
+    <ClCompile Include="simple_handler_win.cpp">
+      <Filter>FileTree</Filter>
+    </ClCompile>
+    <ClCompile Include="simple_handler.cpp">
+      <Filter>FileTree</Filter>
+    </ClCompile>
+    <ClCompile Include="simple_app.cpp">
+      <Filter>FileTree</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <QtUic Include="QtCefSample.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="simple_app.h">
+      <Filter>FileTree</Filter>
+    </ClInclude>
+    <ClInclude Include="simple_handler.h">
+      <Filter>FileTree</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <QtMoc Include="QtCefSample.h">
+      <Filter>FileTree</Filter>
+    </QtMoc>
+    <QtMoc Include="QtCefView.h">
+      <Filter>FileTree</Filter>
+    </QtMoc>
+  </ItemGroup>
+  <ItemGroup>
+    <QtRcc Include="QtCefSample.qrc">
+      <Filter>FileTree</Filter>
+    </QtRcc>
+  </ItemGroup>
+</Project>
