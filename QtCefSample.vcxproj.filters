@@ -19,19 +19,19 @@
     <ClCompile Include="main.cpp">
       <Filter>FileTree</Filter>
     </ClCompile>
-    <ClCompile Include="QtCefSample.cpp">
+    <ClCompile Include="CefBrowser.cpp">
       <Filter>FileTree</Filter>
     </ClCompile>
-    <ClCompile Include="QtCefView.cpp">
+    <ClCompile Include="CefBrowserHandlerImp.cpp">
       <Filter>FileTree</Filter>
     </ClCompile>
-    <ClCompile Include="simple_handler_win.cpp">
+    <ClCompile Include="QBrowserWindow.cpp">
       <Filter>FileTree</Filter>
     </ClCompile>
-    <ClCompile Include="simple_handler.cpp">
+    <ClCompile Include="QCefWebView.cpp">
       <Filter>FileTree</Filter>
     </ClCompile>
-    <ClCompile Include="simple_app.cpp">
+    <ClCompile Include="CefAppImp.cpp">
       <Filter>FileTree</Filter>
     </ClCompile>
   </ItemGroup>
@@ -41,24 +41,22 @@
     </QtUic>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="simple_app.h">
+    <ClInclude Include="CefBrowser.h">
       <Filter>FileTree</Filter>
     </ClInclude>
-    <ClInclude Include="simple_handler.h">
+    <ClInclude Include="CefAppImp.h">
       <Filter>FileTree</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <QtMoc Include="QtCefSample.h">
+    <QtMoc Include="CefBrowserHandlerImp.h">
       <Filter>FileTree</Filter>
     </QtMoc>
-    <QtMoc Include="QtCefView.h">
+    <QtMoc Include="QBrowserWindow.h">
       <Filter>FileTree</Filter>
     </QtMoc>
-  </ItemGroup>
-  <ItemGroup>
-    <QtRcc Include="QtCefSample.qrc">
+    <QtMoc Include="QCefWebView.h">
       <Filter>FileTree</Filter>
-    </QtRcc>
+    </QtMoc>
   </ItemGroup>
 </Project>

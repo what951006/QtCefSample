@@ -1,48 +1,28 @@
-#include "QtCefSample.h"
-#include <QApplication>
+#include "CefBrowser.h"
 
-#include "include/cef_app.h"
+//#ifdef NDEBUG
+//#pragma comment(lib,"QCefBrowser")
+//#else
+//#pragma comment(lib,"QCefBrowser_d")
+//#endif
 
-#include "QtCefView.h"
-
-
-
+// Entry point function for all processes.
 int main(int argc, char *argv[])
 {
-	// Provide CEF with command-line arguments.
-	CefMainArgs main_args(GetModuleHandle(NULL));
-	// CEF applications have multiple sub-processes (render, plugin, GPU, etc)
-	// that share the same executable. This function checks the command-line and,
-	// if this is a sub-process, executes the appropriate logic.
+	QCefProcessStart();
+	//--- main process -----
+	QApplication qapp(argc, argv);
+	//create window;
+	QBrowserWindow* cefWebWindow = new QBrowserWindow(NULL);
+	cefWebWindow->init();
+	cefWebWindow->show();
 
-	CefRefPtr<SimpleApp> app(new SimpleApp(NULL));
-	int exit_code = CefExecuteProcess(main_args, NULL, nullptr);
-	if (exit_code >= 0) {
-		// The sub-process has completed so return here.
-		return exit_code;
-	}
-	CefSettings settings;
-	settings.no_sandbox = true;
-	settings.multi_threaded_message_loop = TRUE;
-	// Initialize CEF.
-	CefInitialize(main_args, settings, app.get(), NULL);
+	//
+	QCefMessageLoop();
+	//
+	int qt_exit_code = qapp.exec();
+	//
+	QCefProcessExit();
 
-
-	QApplication a(argc, argv);
-	QApplication::setQuitOnLastWindowClosed(false);
-
-	QtCefView * view = new QtCefView;
-	QtCefSample *w = new QtCefSample(nullptr, view);
-	a.installNativeEventFilter(w);
-	view->CreateBrowser("www.baidu.com");
-	view->resize(800, 600);
-	w->setCentralWidget(view);
-	w->show();
-	
-	a.exec();
-
-	a.removeNativeEventFilter(w);
-	CefShutdown();
-
-	return 0;
+	return qt_exit_code;
 }
