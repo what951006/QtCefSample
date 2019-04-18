@@ -15,21 +15,8 @@ QtCefView::QtCefView(QWidget * parent)
 
 QtCefView::~QtCefView()
 {
-	/*if (handler_)
-	{
-		
-		while (!handler_->can_close_)
-		{
-			std::this_thread::sleep_for(std::chrono::microseconds(1));
-		}
-	}*/
+	handler_ = nullptr;
 
-	CloseBrowser();
-	while (!handler_->can_close_)
-	{
-		std::this_thread::sleep_for(std::chrono::microseconds(1));
-	}
-	delete handler_;
 	printf("~QtCefView\n");
 }
 
@@ -44,7 +31,7 @@ void QtCefView::CreateBrowser(const QString & url)
 
 	window_info.SetAsChild((HWND)winId(), rect);
 
-	handler_ = new SimpleHandler();
+	handler_ = CefRefPtr<SimpleHandler>(new SimpleHandler(this));
 
 	CefBrowserSettings browser_settings;
 
@@ -76,22 +63,44 @@ void QtCefView::resizeEvent(QResizeEvent *event)
 }
 
 
-void QtCefView::CloseBrowser()
+void QtCefView::OnBrowserClosing()
 {
-	//if (!CefCurrentlyOn(TID_UI))
-	//{
-	//	// Execute on the UI thread.
-	//	CefPostTask(TID_UI,
-	//		base::Bind(&QtCefView::CloseBrowser, this));
-	//	return;
-	//}
-	if(handler_)
-		if(handler_->GetBrowser())
-			handler_->GetBrowser()->GetHost()->CloseBrowser(true);
+	is_browser_destoryed_ = false;
+	is_closing = true;	
 }
 
-void QtCefView::closeEvent(QCloseEvent *event)
+
+void QtCefView::OnBrowserClosed()
+{
+	is_browser_destoryed_ = true;
+	is_closing = false;
+
+	DestroyWindow((HWND)winId());
+	
+	//CloseBrowser(true);
+	//this->close();
+}
+
+
+void QtCefView::CloseBrowser(bool force)
+{
+	if(handler_)
+		handler_->CloseBrowsers(force);
+}
+
+
+
+bool QtCefView::OnWindowClose()
+{
+	if (handler_ && !is_closing)
+	{
+		CloseBrowser(false);
+		return false;
+	}
+	return true;
+}
+
+void QtCefView::OnWindowDestory()
 {
 	
-	__super::closeEvent(event);
 }

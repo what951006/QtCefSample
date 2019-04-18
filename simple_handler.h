@@ -14,7 +14,14 @@ class SimpleHandler : public CefClient,
                       public CefLifeSpanHandler,
                       public CefLoadHandler {
  public:
-  explicit SimpleHandler();
+	 class BrowserHanderDelegate
+	 {
+	 public:
+		 virtual void OnBrowserClosing() = 0;
+		 virtual void OnBrowserClosed() = 0 ;
+	 };
+
+  explicit SimpleHandler(BrowserHanderDelegate *);
   ~SimpleHandler();
 
   // CefClient methods:
@@ -43,20 +50,22 @@ class SimpleHandler : public CefClient,
                            const CefString& failedUrl) OVERRIDE;
 
   // Request that all existing browser windows close.
-
+  void CloseBrowsers(bool );
 
   CefBrowser* GetBrowser()
   {
 	  return browser_.get();
   }
-  bool is_closing = false;
+
  private:
   // Platform-specific implementation.
   void PlatformTitleChange(CefRefPtr<CefBrowser> browser,
                            const CefString& title);
 
 
-  CefRefPtr<CefBrowser> browser_;
+  CefRefPtr<CefBrowser> browser_=nullptr;
+
+  BrowserHanderDelegate * delegate_ = nullptr;
   // Include the default reference counting implementation.
   IMPLEMENT_REFCOUNTING(SimpleHandler);
 };

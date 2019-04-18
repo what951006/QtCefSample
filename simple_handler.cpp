@@ -15,7 +15,9 @@
 #include "include/wrapper/cef_helpers.h"
 
 
-SimpleHandler::SimpleHandler() {
+SimpleHandler::SimpleHandler(BrowserHanderDelegate *dele)
+	:delegate_(dele)
+{
 
 }
 
@@ -38,14 +40,17 @@ void SimpleHandler::OnAfterCreated(CefRefPtr<CefBrowser> browser) {
 
 bool SimpleHandler::DoClose(CefRefPtr<CefBrowser> browser) {
   CEF_REQUIRE_UI_THREAD();
-  is_closing = true;
+  if (delegate_)
+	  delegate_->OnBrowserClosing();
   return false;
 }
 
 void SimpleHandler::OnBeforeClose(CefRefPtr<CefBrowser> browser) {
   CEF_REQUIRE_UI_THREAD();
+  browser_ = nullptr;
+  if(delegate_)
+	 delegate_->OnBrowserClosed();
 
-  is_closing = false;
 }
 
 void SimpleHandler::OnLoadError(CefRefPtr<CefBrowser> browser,
@@ -66,4 +71,17 @@ void SimpleHandler::OnLoadError(CefRefPtr<CefBrowser> browser,
      << std::string(failedUrl) << " with error " << std::string(errorText)
      << " (" << errorCode << ").</h2></body></html>";
   frame->LoadString(ss.str(), failedUrl);
+}
+
+void SimpleHandler::CloseBrowsers(bool force)
+{
+	//if (!CefCurrentlyOn(TID_UI))
+	//{
+	//	// Execute on the UI thread.
+	//	CefPostTask(TID_UI,
+	//		base::Bind(&SimpleHandler::CloseBrowsers, this , force));
+	//	return;
+	//}
+	//
+	GetBrowser()->GetHost()->CloseBrowser(force);
 }

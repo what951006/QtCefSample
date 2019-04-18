@@ -29,19 +29,20 @@ int main(int argc, char *argv[])
 
 
 	QApplication a(argc, argv);
+	QApplication::setQuitOnLastWindowClosed(false);
 
-	QtCefSample *w = new QtCefSample;
 	QtCefView * view = new QtCefView;
-
-	//QObject::connect(&w, &QtCefSample::sigClose, view, &QtCefView::CloseBrowser);
-
+	QtCefSample *w = new QtCefSample(nullptr, view);
+	a.installNativeEventFilter(w);
 	view->CreateBrowser("www.baidu.com");
 	view->resize(800, 600);
 	w->setCentralWidget(view);
 	w->show();
+	
 	a.exec();
 
-	delete w;
+	a.removeNativeEventFilter(w);
 	CefShutdown();
+
 	return 0;
 }
